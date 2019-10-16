@@ -1,0 +1,19 @@
+<h1>Shipment Breakdown</h1>
+
+<p>Shipping to: {{target.name}}</p>
+<p>Transit Time: {{target.transit}}</p>
+<p>Carrier Used: {{target.carrier}}</p>
+<p>Total number of regular bottles: {{regBottles}}</p>
+<p>Total number of magnum bottles: {{magBottles}}</p>
+
+<h2>Cases Breakdown</h2>
+<p>1 x {{regBottles}}-bottle case</p>
+<p>{{magCases}} x 6-bottle magnum cases</p>
+<p>1 x {{magLooseBottles}}-bottle magnum case</p>
+
+<h2>Cost Breakdown</h2>
+<p>Cost for {{regBottles}}-bottle case: {{casePrice}}</p>
+<p>Cost for {{magCases}} magnum cases: {{magPrice}} (@ {{magCasePrice.price}} each)</p>
+<p>Cost for {{magLooseBottles}}-bottle magnum case: {{looseMagPrice}}</p>
+
+<h3>Total Price: {{totalPrice}}</h3>

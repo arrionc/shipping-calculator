@@ -1,0 +1,38 @@
+{% extends "main.html" %}
+{% block content %}
+
+
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-danger">
+            <strong>{{message}}</strong>
+        </div>
+        {% endfor %}   
+    {% endif %}
+{% endwith %}     
+
+<h1 class="display-4">Shipping Calculator</h1>
+
+<form action="#" method="POST">
+    <div class="form-group w-25">
+        <label for="state" class="font-weight-bold">State</label>
+        <input class="form-control" type="text" 
+        name="state" placeholder="Enter State Initals in Capital Letters">
+    </div>
+    <div class="form-group w-25">
+        <label for="750s" class="font-weight-bold">Regular Size or Less</label>
+        <input class="form-control" type ="number" 
+        name="750s" placeholder="Enter 0 if no value">
+    </div>
+    <div class="form-group w-25">
+        <label for="magnums" class="font-weight-bold">Magnums</label>
+        <input class="form-control" type="number" 
+        name="magnums" placeholder="Enter 0 if no value">
+    </div>
+    <button class="btn btn-primary btn-block w-25" type="submit">Submit</button>
+
+</form>
+
+{% endblock %}
