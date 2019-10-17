@@ -1,12 +1,31 @@
-<h1>Shipment Breakdown</h1>
+{% extends "main.html" %}
+{% block content %}
 
-<p>Your Shipping to: {{target.name}}</p>
-<p>Transit Time: {{target.transit}}</p>
-<p>Carrier Used: {{target.carrier}}</p>
-<h2>Cost Breakdown</h2>
-<p>Number of regular bottles: {{regBottles}}</p>
-<p>Number of magnum bottles: {{magBottles}}</p>
-<p>Cost of shipping regular bottles: {{regPrices}}</p>
-<p>Cost of shipping magnums: {{magPrices}}</p>
+<h1 class="display-4">Shipment Information</h1>
+<div>
+    <p>Shipping to: {{target.name}}</p>
+    <p>Transit Time: {{target.transit}}</p>
+    <p>Carrier Used: {{target.carrier}}</p>
+    <p>Regular bottles: {{regBottles}}</p>
+    <p>Magnum bottles: {{magBottles}}</p>
+</div>
+
+<button class="btn btn-primary d-block mb-4"
+data-toggle="collapse" data-target="#collapse-btn-1">Cost Breakdown</button>
+
+<div class="collapse mb-5" id="collapse-btn-1">
+    <div class="card">
+        <div class="card-body">
+           
+            Cost Regular bottles: {{regPrices}}
+            <br>
+            Cost Magnums: {{magPrices}}
+
+        </div>
+    </div>
+</div>
+
+
 <p>Total Cost: {{totalPrice}}</p>
 
+{% endblock %}
