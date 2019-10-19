@@ -2,30 +2,34 @@
 {% block content %}
 
 <h1 class="display-4">Shipment Information</h1>
-<div>
-    <p>Shipping to: {{target.name}}</p>
-    <p>Transit Time: {{target.transit}}</p>
-    <p>Carrier Used: {{target.carrier}}</p>
-    <p>Regular bottles: {{regBottles}}</p>
-    <p>Magnum bottles: {{magBottles}}</p>
+<div class="card bg-light text-dark border-dark mb-3" style="width: 18rem;">
+    <div class="card-body">
+    <p>Shipping to: <strong>{{target.name}}</strong></p>
+    <p>Transit Time: <strong>{{target.transit}}</strong></p>
+    <p>Carrier Used: <strong>{{target.carrier}}</strong></p>
+    <p>Regular bottles: <strong>{{regBottles}}</strong></p>
+    <p>Magnum bottles: <strong>{{magBottles}}</strong></p>
+    </div>
 </div>
 
-<button class="btn btn-primary d-block mb-4"
-data-toggle="collapse" data-target="#collapse-btn-1">Cost Breakdown</button>
+<button type="button" class="btn btn-outline-primary d-block mb-3" aria-level="Left Align"
+data-toggle="collapse" data-target="#collapse-btn-1">
+    <span class="fas fa-plus-square fa-fw"></span>Cost Breakdown</button>
 
-<div class="collapse mb-5" id="collapse-btn-1">
-    <div class="card">
+<div class="collapse mb-3" id="collapse-btn-1">
+    <div class="card bg-light text-dark border-dark" style="width: 18rem;">
         <div class="card-body">
-           
-            Cost Regular bottles: {{regPrices}}
-            <br>
-            Cost Magnums: {{magPrices}}
-
+            <p class="card-text">Regular bottles cost: {{regPrices}}</p>
+            <p class="card-text">Magnums cost: {{magPrices}}</p>
         </div>
     </div>
 </div>
 
+<div class="card bg-light text-dark border-dark mb-3" style="width: 18rem;">
+    <div class="card-body">
+        <p class="card-text font-weight-bold">Total Cost: {{totalPrice}}</p>
+    </div>    
+</div>
 
-<p>Total Cost: {{totalPrice}}</p>
-
+<a class="btn btn-outline-success" href="{{url_for('enterValues')}}" role="button">Go Back</a>
 {% endblock %}
