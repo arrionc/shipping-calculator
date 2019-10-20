@@ -87,6 +87,7 @@ def secondCalculation(state, regBottles, magBottles):
     looseBottles = regBottles % 12
     regCases = (regBottles - looseBottles) / 12
     twelveCasePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=12).one()
+    twelveCasePriceDollar = locale.currency(twelveCasePrice.price)
     casePriceDollar = regCases * twelveCasePrice.price
     casePrice = locale.currency(casePriceDollar)
     looseBottlePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=looseBottles).one()
@@ -95,6 +96,7 @@ def secondCalculation(state, regBottles, magBottles):
     magLooseBottles = magBottles % 6
     magCases = (magBottles - magLooseBottles) / 6
     magCasePrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=6).one()
+    magCasePriceDollar = locale.currency(magCasePrice.price)
     magPriceDollar = magCases * magCasePrice.price
     magPrice = locale.currency(magPriceDollar)
     looseMagnumPrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=magLooseBottles).one()
@@ -104,8 +106,8 @@ def secondCalculation(state, regBottles, magBottles):
 
     return render_template('second.html', target=OneState, regBottles=regBottles, magBottles=magBottles,
                             looseBottles=looseBottles, regCases=regCases, magLooseBottles=magLooseBottles,
-                            magCases=magCases, casePrice=casePrice, twelveCasePrice=twelveCasePrice, looseRegPrice=looseRegPrice,
-                            magPrice=magPrice, magCasePrice=magCasePrice, looseMagPrice=looseMagPrice, totalPrice=totalPrice)
+                            magCases=magCases, casePrice=casePrice, twelveCasePriceDollar=twelveCasePriceDollar, looseRegPrice=looseRegPrice,
+                            magPrice=magPrice, magCasePriceDollar=magCasePriceDollar, looseMagPrice=looseMagPrice, totalPrice=totalPrice)
 
 # Calculation for >12 reg bottles and <= 6 magnum bottles 
 @app.route('/thirdcalculation/<state>/<int:regBottles>/<int:magBottles>')
@@ -118,6 +120,7 @@ def thirdCalculation(state, regBottles, magBottles):
     looseBottles = regBottles % 12
     regCases = (regBottles - looseBottles) / 12
     twelveCasePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=12).one()
+    twelveCasePriceDollar = locale.currency(twelveCasePrice.price)
     casePriceDollar = regCases * twelveCasePrice.price
     casePrice = locale.currency(casePriceDollar)
     looseBottlePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=looseBottles).one()
@@ -129,7 +132,7 @@ def thirdCalculation(state, regBottles, magBottles):
     totalPrice = locale.currency(casePriceDollar + looseRegPriceDollar + magPriceDollar)
 
     return render_template('third.html', target=OneState, regBottles=regBottles, magBottles=magBottles,
-                            looseBottles=looseBottles, regCases=regCases, twelveCasePrice=twelveCasePrice, casePrice=casePrice, 
+                            looseBottles=looseBottles, regCases=regCases, twelveCasePriceDollar=twelveCasePriceDollar, casePrice=casePrice, 
                             looseRegPrice=looseRegPrice, magPrice=magPrice, totalPrice=totalPrice)
 
 # Calculation for <=12 reg bottles and > 6 magnum bottles
@@ -146,6 +149,7 @@ def fourthCalculation(state, regBottles, magBottles):
     magLooseBottles = magBottles % 6
     magCases = (magBottles - magLooseBottles) / 6
     magCasePrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=6).one()
+    magCasePriceDollar = locale.currency(magCasePrice)
     magPriceDollar = magCases * magCasePrice.price
     magPrice = locale.currency(magPriceDollar)
     looseMagnumPrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=magLooseBottles).one()
@@ -155,7 +159,7 @@ def fourthCalculation(state, regBottles, magBottles):
     
 
     return render_template('fourth.html', target=OneState, regBottles=regBottles, magBottles=magBottles,
-                            casePrice=casePrice, magCases=magCases, magLooseBottles=magLooseBottles, magCasePrice=magCasePrice, 
+                            casePrice=casePrice, magCases=magCases, magLooseBottles=magLooseBottles, magCasePriceDollar=magCasePriceDollar, 
                             magPrice=magPrice, looseMagPrice=looseMagPrice, totalPrice=totalPrice)
 
 
