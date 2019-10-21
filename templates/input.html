@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 {% block content %}
 
-
+<h1 class="display-4">Shipping Calculator</h1>
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -12,8 +12,6 @@
         {% endfor %}   
     {% endif %}
 {% endwith %}     
-
-<h1 class="display-4">Shipping Calculator</h1>
 
 <form action="#" method="POST">
     <div class="form-group w-25">
