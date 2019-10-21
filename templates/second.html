@@ -4,16 +4,16 @@
 <h1 class="display-4">Shipment Information</h1>
 <div class="card bg-light text-dark border-dark mb-3" style="width: 18rem;">
     <div class="card-body">
-    <p>Shipping to: <strong>{{target.name}}</strong></p>
+    <p>Shipping To: <strong>{{target.name}}</strong></p>
     <p>Transit Time: <strong>{{target.transit}}</strong></p>
     <p>Carrier Used: <strong>{{target.carrier}}</strong></p>
-    <p>Regular bottles: <strong>{{regBottles}}</strong></p>
-    <p>Magnum bottles: <strong>{{magBottles}}</strong></p>
+    <p>Regular Bottles: <strong>{{regBottles}}</strong></p>
+    <p>Magnum Bottles: <strong>{{magBottles}}</strong></p>
     </div>
 </div>
 
 <button type="button" class="btn btn-outline-primary d-block mb-3"
-data-toggle="collapse" data-target="#collapse-btn-1">
+data-toggle="collapse" data-target="#collapse-btn-1" style="width: 18rem;">
     <span class="fas fa-plus-square fa-fw"></span>Shipment Breakdown</button>
 
     <div class="collapse mb-3" id="collapse-btn-1">
@@ -29,11 +29,11 @@ data-toggle="collapse" data-target="#collapse-btn-1">
     </div>
 
 <button type="button" class="btn btn-outline-primary d-block mb-3"
-data-toggle="collapse" data-target="#collapse-btn-2">
+data-toggle="collapse" data-target="#collapse-btn-2" style="width: 18rem;">
     <span class="fas fa-plus-square fa-fw"></span>Cost Breakdown</button>
 
     <div class="collapse mb-3" id="collapse-btn-2">
-        <div class="card bg-light text-dark border-dark" style="width: 30rem;">
+        <div class="card bg-light text-dark border-dark" style="width: 25rem;">
             <div class="card-body"> 
                 <p class="card-text">{{regCases}} case(s): <strong>{{casePrice}}</strong> (@ {{twelveCasePriceDollar}} each)</p>
                 <p class="card-text">{{looseBottles}}-bottle case: <strong>{{looseRegPrice}}</strong></p>
@@ -45,7 +45,8 @@ data-toggle="collapse" data-target="#collapse-btn-2">
 
 <div class="card bg-light text-dark border-dark mb-3" style="width: 18rem;">
     <div class="card-body">
-        <p class="card-text font-weight-bold">Total Cost: {{totalPrice}}</p>
+        <h6 class="card-text font-weight-bold">Total Cost: {{totalPrice}}</h6>
+            <p class="card-text text-muted">Total Cost Including NYC Tax: {{totalPriceTax}}</p>
     </div>    
 </div>
 
