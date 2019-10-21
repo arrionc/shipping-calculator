@@ -21,6 +21,8 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 noShippingStates = ['AR', 'DE', 'KY', 'MS', 'OK', 'RI', 'UT']
+askJason = ['HI', 'AK']
+salesTax = 1.08875 # This is New York City tax rate
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/calculator', methods=['GET', 'POST'])
@@ -35,16 +37,19 @@ def enterValues():
         if state in noShippingStates:
             flash('''NO SHIPMENTS TO: AR, DE, KY, MS, OK, RI, UT''')
             return render_template('input.html')
+        if state in askJason:
+            flash('''See Jason for Shipments going to HI and AK''')
+            return render_template('input.html')
         try:
             validState = session.query(States).filter_by(name=state).one()
         except NoResultFound:
             flash('''Invalid State Entered''')
             return render_template('input.html')
         if regBottles == '':
-            flash('''Please Enter a value for Regular Size or Less''')
+            flash('''Please Enter a Value for Regular Size or Less''')
             return render_template('input.html')
         if magBottles == '':
-            flash('''Please Enter a value for Magnums ''')
+            flash('''Please Enter a Value for Magnums ''')
             return render_template('input.html')
         
         if int(regBottles) <= 12 and int(magBottles) <= 6:
@@ -73,8 +78,10 @@ def firstCalculation(state, regBottles, magBottles):
     totalRegPrices = locale.currency(regShipPrices.price)
     totalMagPrices = locale.currency(magShipPrices.price)
     totalShipPrice = locale.currency(regShipPrices.price + magShipPrices.price)
+    totalPriceTax = locale.currency((regShipPrices.price + magShipPrices.price) * salesTax)
     return render_template('first.html', target=OneState, regPrices=totalRegPrices, magPrices=totalMagPrices, 
-                           totalPrice=totalShipPrice, regBottles=regBottles, magBottles=magBottles)
+                           totalPrice=totalShipPrice, regBottles=regBottles, magBottles=magBottles,
+                           totalPriceTax=totalPriceTax)
 
 # Calculation for > 12 regular bottles and > 6 magnum bottles
 @app.route('/secondcalculation/<state>/<int:regBottles>/<int:magBottles>/')
@@ -149,7 +156,7 @@ def fourthCalculation(state, regBottles, magBottles):
     magLooseBottles = magBottles % 6
     magCases = (magBottles - magLooseBottles) / 6
     magCasePrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=6).one()
-    magCasePriceDollar = locale.currency(magCasePrice)
+    magCasePriceDollar = locale.currency(magCasePrice.price)
     magPriceDollar = magCases * magCasePrice.price
     magPrice = locale.currency(magPriceDollar)
     looseMagnumPrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=magLooseBottles).one()
