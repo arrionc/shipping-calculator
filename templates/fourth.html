@@ -1,19 +1,54 @@
-<h1>Shipment Breakdown</h1>
+{% extends "main.html" %}
+{% block content %}
 
-<p>Shipping to: {{target.name}}</p>
-<p>Transit Time: {{target.transit}}</p>
-<p>Carrier Used: {{target.carrier}}</p>
-<p>Total number of regular bottles: {{regBottles}}</p>
-<p>Total number of magnum bottles: {{magBottles}}</p>
+<h1 class="display-4">Shipment Information</h1>
+<div class="card bg-light text-dark border-dark mb-3" style="width: 18rem;">
+    <div class="card-body">
+    <p>Shipping To: <strong>{{target.name}}</strong></p>
+    <p>Transit Time: <strong>{{target.transit}}</strong></p>
+    <p>Carrier Used: <strong>{{target.carrier}}</strong></p>
+    <p>Regular Bottles: <strong>{{regBottles}}</strong></p>
+    <p>Magnum Bottles: <strong>{{magBottles}}</strong></p>
+    </div>
+</div>
 
-<h2>Cases Breakdown</h2>
-<p>1 x {{regBottles}}-bottle case</p>
-<p>{{magCases}} x 6-bottle magnum cases</p>
-<p>1 x {{magLooseBottles}}-bottle magnum case</p>
+<button type="button" class="btn btn-outline-primary d-block mb-3"
+data-toggle="collapse" data-target="#collapse-btn-1" style="width: 18rem;">
+    <span class="fas fa-plus-square fa-fw"></span>Shipment Breakdown</button>
 
-<h2>Cost Breakdown</h2>
-<p>Cost for {{regBottles}}-bottle case: {{casePrice}}</p>
-<p>Cost for {{magCases}} magnum cases: {{magPrice}} (@ {{magCasePrice.price}} each)</p>
-<p>Cost for {{magLooseBottles}}-bottle magnum case: {{looseMagPrice}}</p>
+    <div class="collapse mb-3" id="collapse-btn-1">
+        <div class="card bg-light text-dark border-dark" style="width: 18rem;">
+            <div class="card-body">
+               
+                <p class="card-text">1 x {{regBottles}}-bottle case</p>
+                <p class="card-text">{{magCases}} x 6-bottle magnum case(s)</p>
+                <p class="card-text">1 x {{magLooseBottles}}-bottle magnum case</p>
 
-<h3>Total Price: {{totalPrice}}</h3>
+            </div>
+        </div>
+    </div>
+
+<button type="button" class="btn btn-outline-primary d-block mb-3"
+data-toggle="collapse" data-target="#collapse-btn-2" style="width: 18rem;">
+    <span class="fas fa-plus-square fa-fw"></span>Cost Breakdown</button>
+
+    <div class="collapse mb-3" id="collapse-btn-2">
+        <div class="card bg-light text-dark border-dark" style="width: 25rem;">
+            <div class="card-body"> 
+                <p class="card-text">{{regBottles}}-bottle case: <strong>{{casePrice}}</strong></p>
+                <p class="card-text">{{magCases}} magnum case(s): <strong>{{magPrice}}</strong> (@ {{magCasePriceDollar}} each)</p>
+                <p class="card-text">{{magLooseBottles}}-bottle magnum case: <strong>{{looseMagPrice}}</strong></p>
+            </div>
+        </div>
+    </div>
+
+<div class="card bg-light text-dark border-dark mb-3" style="width: 18rem;">
+    <div class="card-body">
+        <h6 class="card-text font-weight-bold">Total Cost: {{totalPrice}}</h6>
+            <p class="card-text text-muted">Total Cost Including NYC Tax: {{totalPriceTax}}</p>
+    </div>    
+</div>
+
+<a class="btn btn-outline-success" href="{{url_for('enterValues')}}" role="button">Go Back</a>
+
+{% endblock %}
