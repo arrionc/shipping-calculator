@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 # Connect to the Database to create sessions
 #engine = create_engine('sqlite:///vingo.db')
-engine = create_engine('postgresql://vingo:hay2285!@localhost/vingo')
+engine = create_engine('postgresql://vingo:somepassword@localhost/vingo')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
