@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Float
+from sqlalchemy import Column, ForeignKey, Integer, String, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -20,7 +20,7 @@ class RegPrices(Base):
     id = Column(Integer, primary_key=True)
     zone = Column(Integer, nullable=False)
     bottles = Column(Integer, nullable=False)
-    price = Column(Integer, nullable=False)
+    price = Column(Numeric, nullable=False)
 
 class MagPrices(Base):
     __tablename__ = 'magprices'
@@ -28,7 +28,7 @@ class MagPrices(Base):
     id = Column(Integer, primary_key=True)
     zone = Column(Integer, nullable=False)
     bottles = Column(Integer, nullable=False)
-    price = Column(Integer, nullable=False)
+    price = Column(Numeric, nullable=False)
 
 
 engine = create_engine('sqlite:///vingo.db')
