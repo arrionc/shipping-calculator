@@ -19,11 +19,25 @@ data-toggle="collapse" data-target="#collapse-btn-1" style="width: 18rem;">
     <div class="collapse mb-3" id="collapse-btn-1">
         <div class="card bg-light text-dark border-dark" style="width: 18rem;">
             <div class="card-body">
+                {% if looseBottles > 0  and magLooseBottles > 0 %}
                 <p class="card-text">{{regCases}} x 12-bottle case(s)</p>
                 <p class="card-text">1 x {{looseBottles}}-bottle case</p>
                 <p class="card-text">{{magCases}} x 6-bottle magnum case(s)</p>
                 <p class="card-text">1 x {{magLooseBottles}}-bottle magnum case</p>
+                {% elif looseBottles == 0 and magLooseBottles > 0 %}
+                <p class="card-text">{{regCases}} x 12-bottle case(s)</p>
+                <p class="card-text">{{magCases}} x 6-bottle magnum case(s)</p>
+                <p class="card-text">1 x {{magLooseBottles}}-bottle magnum case</p>
+                {% elif looseBottles > 0 and magLooseBottles == 0 %}
+                <p class="card-text">{{regCases}} x 12-bottle case(s)</p>
+                <p class="card-text">1 x {{looseBottles}}-bottle case</p>
+                <p class="card-text">{{magCases}} x 6-bottle magnum case(s)</p>
+                {% elif looseBottles == 0 and magLooseBottles == 0 %}
+                <p class="card-text">{{regCases}} x 12-bottle case(s)</p>
+                <p class="card-text">{{magCases}} x 6-bottle magnum case(s)</p>
+                {% endif %}
 
+                
             </div>
         </div>
     </div>
