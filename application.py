@@ -5,6 +5,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from database_setup import Base, States, RegPrices, MagPrices
 import string
 from flask import make_response, flash, url_for
+from decimal import *
 import requests
 import locale
 locale.setlocale( locale.LC_ALL, '' )
@@ -20,7 +21,7 @@ session = DBSession()
 
 noShippingStates = ['AR', 'DE', 'KY', 'MS', 'OK', 'RI', 'UT']
 askJason = ['HI', 'AK']
-salesTax = 1.08875 # This is New York City tax rate
+salesTax = Decimal(1.08875) # This is New York City tax rate
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/calculator', methods=['GET', 'POST'])
@@ -95,7 +96,7 @@ def secondCalculation(state, regBottles, magBottles):
     OneState = session.query(States).filter_by(name=state).one()
     
     looseBottles = regBottles % 12
-    regCases = (regBottles - looseBottles) / 12
+    regCases = int((regBottles - looseBottles) / 12)
     twelveCasePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=12).one() 
     twelveCasePriceDollar = locale.currency(twelveCasePrice.price)
     casePriceDollar = regCases * twelveCasePrice.price
@@ -106,7 +107,7 @@ def secondCalculation(state, regBottles, magBottles):
     looseRegPrice = locale.currency(looseRegPriceDollar)
     
     magLooseBottles = magBottles % 6
-    magCases = (magBottles - magLooseBottles) / 6
+    magCases = int((magBottles - magLooseBottles) / 6)
     magCasePrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=6).one()
     magCasePriceDollar = locale.currency(magCasePrice.price)
     magPriceDollar = magCases * magCasePrice.price
@@ -135,7 +136,7 @@ def thirdCalculation(state, regBottles, magBottles):
     OneState = session.query(States).filter_by(name=state).one()
     
     looseBottles = regBottles % 12
-    regCases = (regBottles - looseBottles) / 12
+    regCases = int((regBottles - looseBottles) / 12)
     twelveCasePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=12).one()
     twelveCasePriceDollar = locale.currency(twelveCasePrice.price)
     casePriceDollar = regCases * twelveCasePrice.price
@@ -170,7 +171,7 @@ def fourthCalculation(state, regBottles, magBottles):
     casePrice = locale.currency(casePriceDollar)
     
     magLooseBottles = magBottles % 6
-    magCases = (magBottles - magLooseBottles) / 6
+    magCases = int((magBottles - magLooseBottles) / 6)
     magCasePrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=6).one()
     magCasePriceDollar = locale.currency(magCasePrice.price)
     magPriceDollar = magCases * magCasePrice.price
