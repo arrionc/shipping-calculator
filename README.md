@@ -1,6 +1,6 @@
 # Vingo Calculator App
 
-This simple web app helps to breakdown wine shipping costs using Vingo shipping service. 
+This simple web app helps to breakdown wine shipping costs using the shipping service called Vingo.
 The app will give an error if the wrong state is entered and it requires a value is always entered - 0 if none. 
 
 The project ip: [34.200.212.59](http://34.200.212.59/)
