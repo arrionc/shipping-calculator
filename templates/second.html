@@ -48,11 +48,24 @@ data-toggle="collapse" data-target="#collapse-btn-2" style="width: 18rem;">
 
     <div class="collapse mb-3" id="collapse-btn-2">
         <div class="card bg-light text-dark border-dark" style="width: 25rem;">
-            <div class="card-body"> 
+            <div class="card-body">
+                {% if looseBottles > 0 and magLooseBottles > 0 %} 
                 <p class="card-text">{{regCases}} case(s): <strong>{{casePrice}}</strong> (@ {{twelveCasePriceDollar}} each)</p>
                 <p class="card-text">{{looseBottles}}-bottle case: <strong>{{looseRegPrice}}</strong></p>
                 <p class="card-text">{{magCases}} magnum case(s): <strong>{{magPrice}}</strong> (@ {{magCasePriceDollar}} each)</p>
                 <p class="card-text">{{magLooseBottles}}-bottle magnum case: <strong>{{looseMagPrice}}</strong></p>
+                {% elif looseBottles > 0 and magLooseBottles == 0 %}
+                <p class="card-text">{{regCases}} case(s): <strong>{{casePrice}}</strong> (@ {{twelveCasePriceDollar}} each)</p>
+                <p class="card-text">{{looseBottles}}-bottle case: <strong>{{looseRegPrice}}</strong></p>
+                <p class="card-text">{{magCases}} magnum case(s): <strong>{{magPrice}}</strong> (@ {{magCasePriceDollar}} each)</p>
+                {% elif looseBottles == 0 and magLooseBottles > 0 %}
+                <p class="card-text">{{regCases}} case(s): <strong>{{casePrice}}</strong> (@ {{twelveCasePriceDollar}} each)</p>
+                <p class="card-text">{{magCases}} magnum case(s): <strong>{{magPrice}}</strong> (@ {{magCasePriceDollar}} each)</p>
+                <p class="card-text">{{magLooseBottles}}-bottle magnum case: <strong>{{looseMagPrice}}</strong></p>
+                {% elif looseBottles == 0 and magLooseBottles == 0 %}
+                <p class="card-text">{{regCases}} case(s): <strong>{{casePrice}}</strong> (@ {{twelveCasePriceDollar}} each)</p>
+                <p class="card-text">{{magCases}} magnum case(s): <strong>{{magPrice}}</strong> (@ {{magCasePriceDollar}} each)</p>
+                {% endif %}
             </div>
         </div>
     </div>
