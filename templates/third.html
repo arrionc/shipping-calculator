@@ -19,10 +19,14 @@ data-toggle="collapse" data-target="#collapse-btn-1" style="width: 18rem;">
     <div class="collapse mb-3" id="collapse-btn-1">
         <div class="card bg-light text-dark border-dark" style="width: 18rem;">
             <div class="card-body">
+                {% if looseBottles > 0 %}
                 <p class="card-text">{{regCases}} x 12-bottle case(s)</p>
                 <p class="card-text">1 x {{looseBottles}}-bottle case</p>
                 <p class="card-text">1 x {{magBottles}}-bottle magnum case</p>
-
+                {% elif looseBottles == 0 %}
+                <p class="card-text">{{regCases}} x 12-bottle case(s)</p>
+                <p class="card-text">1 x {{magBottles}}-bottle magnum case</p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -33,10 +37,16 @@ data-toggle="collapse" data-target="#collapse-btn-2" style="width: 18rem;">
 
     <div class="collapse mb-3" id="collapse-btn-2">
         <div class="card bg-light text-dark border-dark" style="width: 25rem;">
-            <div class="card-body"> 
+            <div class="card-body">
+                {% if looseBottles > 0 %} 
                 <p class="card-text">{{regCases}} case(s): <strong>{{casePrice}}</strong> (@ {{twelveCasePriceDollar}} each)</p>
                 <p class="card-text">{{looseBottles}}-bottle case: <strong>{{looseRegPrice}}</strong></p>
                 <p class="card-text">{{magBottles}}-bottle magnum case: <strong>{{magPrice}}</strong></p>
+                {% elif looseBottles == 0 %}
+                <p class="card-text">{{regCases}} case(s): <strong>{{casePrice}}</strong> (@ {{twelveCasePriceDollar}} each)</p>
+                <p class="card-text">{{magBottles}}-bottle magnum case: <strong>{{magPrice}}</strong></p>
+                {% endif %}
+
             </div>
         </div>
     </div>
