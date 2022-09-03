@@ -5,21 +5,22 @@ from sqlalchemy.orm.exc import NoResultFound
 from database_setup import Base, States, RegPrices, MagPrices
 import string
 from flask import make_response, flash, url_for
-from decimal import *
 import requests
 import locale
-locale.setlocale( locale.LC_ALL, '' )
+from decimal import *
+locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
 
 app = Flask(__name__)
 
 # Connect to the Database to create sessions
 engine = create_engine('sqlite:///vingo.db')
+# engine = create_engine('postgresql://vingo:somepassword@localhost/vingo')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-noShippingStates = ['AR', 'DE', 'KY', 'MS', 'OK', 'RI', 'UT']
+noShippingStates = ['AL', 'AR', 'KY',' MI', 'MS', 'UT']
 askJason = ['HI', 'AK']
 salesTax = Decimal(1.08875) # This is New York City tax rate
 
@@ -34,7 +35,7 @@ def enterValues():
         regBottles = request.form['750s']
         magBottles = request.form['magnums']
         if state in noShippingStates:
-            flash('''NO SHIPMENTS TO: AR, DE, KY, MS, OK, RI, UT''')
+            flash('''NO SHIPMENTS TO: AL, AR, KY, MI, MS, UT''')
             return render_template('input.html')
         if state in askJason:
             flash('''See Jason for Shipments going to HI and AK''')
@@ -97,9 +98,10 @@ def secondCalculation(state, regBottles, magBottles):
     
     looseBottles = regBottles % 12
     regCases = int((regBottles - looseBottles) / 12)
+    regCasesNum = Decimal((regBottles - looseBottles) / 12 )
     twelveCasePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=12).one() 
     twelveCasePriceDollar = locale.currency(twelveCasePrice.price)
-    casePriceDollar = regCases * twelveCasePrice.price
+    casePriceDollar = regCasesNum * twelveCasePrice.price
     casePrice = locale.currency(casePriceDollar)
     
     looseBottlePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=looseBottles).one()
@@ -108,9 +110,10 @@ def secondCalculation(state, regBottles, magBottles):
     
     magLooseBottles = magBottles % 6
     magCases = int((magBottles - magLooseBottles) / 6)
+    magCasesNum = Decimal((magBottles - magLooseBottles) / 6)
     magCasePrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=6).one()
     magCasePriceDollar = locale.currency(magCasePrice.price)
-    magPriceDollar = magCases * magCasePrice.price
+    magPriceDollar = magCasesNum * magCasePrice.price
     magPrice = locale.currency(magPriceDollar)
     
     looseMagnumPrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=magLooseBottles).one()
@@ -137,9 +140,10 @@ def thirdCalculation(state, regBottles, magBottles):
     
     looseBottles = regBottles % 12
     regCases = int((regBottles - looseBottles) / 12)
+    regCasesNum = Decimal((regBottles - looseBottles) / 12 )
     twelveCasePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=12).one()
     twelveCasePriceDollar = locale.currency(twelveCasePrice.price)
-    casePriceDollar = regCases * twelveCasePrice.price
+    casePriceDollar = regCasesNum * twelveCasePrice.price
     casePrice = locale.currency(casePriceDollar)
     
     looseBottlePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=looseBottles).one()
@@ -172,9 +176,10 @@ def fourthCalculation(state, regBottles, magBottles):
     
     magLooseBottles = magBottles % 6
     magCases = int((magBottles - magLooseBottles) / 6)
+    magCasesNum = Decimal((magBottles - magLooseBottles) / 6)
     magCasePrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=6).one()
     magCasePriceDollar = locale.currency(magCasePrice.price)
-    magPriceDollar = magCases * magCasePrice.price
+    magPriceDollar = magCasesNum * magCasePrice.price
     magPrice = locale.currency(magPriceDollar)
     
     looseMagnumPrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=magLooseBottles).one()
@@ -192,4 +197,5 @@ def fourthCalculation(state, regBottles, magBottles):
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
+    # app.run()
     app.run(host='0.0.0.0', port=8000)
