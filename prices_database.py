@@ -3,6 +3,7 @@ from sqlalchemy.orm import sessionmaker
 
 from database_setup import States, Base, RegPrices, MagPrices
 
+# engine = create_engine('postgresql://vingo:somepassword@localhost/vingo')
 engine = create_engine('sqlite:///vingo.db')
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
