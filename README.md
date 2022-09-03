@@ -229,13 +229,13 @@ app.run()
 # engine = create_engine("sqlite:///vingo.db")
 engine = create_engine('postgresql://vingo:yourpassword@localhost/vingo')
 ```
-- In the `/var/vingo/vingoApp directory`, activate the virtual environment `. venv3/bin/activate`
+- In the `/var/vingo/vingoApp` directory, activate the virtual environment `. venv3/bin/activate`
 - Create the database `python3 database_setup.py`
 - Populate the database `python3 prices_database.py`, `python3 states_database.py` and `python3 update_database.py`
 - Deactivate the virtual environment `deactivate`
 - Restart Apache `sudo service apache2 reload`
 - Open browser to `44.200.13.8`
-- Application should be app and running 
+- Application should be up and running 
 - A useful command to catch errors in apache `sudo tail /var/log/apache2/error.log`
 - Run `sudo service apache2 restart`
 
