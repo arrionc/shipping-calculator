@@ -32,4 +32,5 @@ class MagPrices(Base):
 
 
 engine = create_engine('sqlite:///vingo.db')
+# engine = create_engine('postgresql://vingo:somepassword@localhost/vingo')
 Base.metadata.create_all(engine)
