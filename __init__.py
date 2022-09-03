@@ -7,21 +7,22 @@ import string
 from flask import make_response, flash, url_for
 import requests
 import locale
+from decimal import *
 locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
 
 app = Flask(__name__)
 
 # Connect to the Database to create sessions
-#engine = create_engine('sqlite:///vingo.db')
+# engine = create_engine('sqlite:///vingo.db')
 engine = create_engine('postgresql://vingo:somepassword@localhost/vingo')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-noShippingStates = ['AR', 'DE', 'KY', 'MS', 'OK', 'RI', 'UT']
+noShippingStates = ['AL', 'AR', 'KY',' MI', 'MS', 'UT']
 askJason = ['HI', 'AK']
-salesTax = 1.08875 # This is New York City tax rate
+salesTax = Decimal(1.08875) # This is New York City tax rate
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/calculator', methods=['GET', 'POST'])
@@ -34,7 +35,7 @@ def enterValues():
         regBottles = request.form['750s']
         magBottles = request.form['magnums']
         if state in noShippingStates:
-            flash('''NO SHIPMENTS TO: AR, DE, KY, MS, OK, RI, UT''')
+            flash('''NO SHIPMENTS TO: AL, AR, KY, MI, MS, UT''')
             return render_template('input.html')
         if state in askJason:
             flash('''See Jason for Shipments going to HI and AK''')
@@ -96,10 +97,11 @@ def secondCalculation(state, regBottles, magBottles):
     OneState = session.query(States).filter_by(name=state).one()
     
     looseBottles = regBottles % 12
-    regCases = (regBottles - looseBottles) / 12
+    regCases = int((regBottles - looseBottles) / 12)
+    regCasesNum = Decimal((regBottles - looseBottles) / 12 )
     twelveCasePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=12).one() 
     twelveCasePriceDollar = locale.currency(twelveCasePrice.price)
-    casePriceDollar = regCases * twelveCasePrice.price
+    casePriceDollar = regCasesNum * twelveCasePrice.price
     casePrice = locale.currency(casePriceDollar)
     
     looseBottlePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=looseBottles).one()
@@ -107,10 +109,11 @@ def secondCalculation(state, regBottles, magBottles):
     looseRegPrice = locale.currency(looseRegPriceDollar)
     
     magLooseBottles = magBottles % 6
-    magCases = (magBottles - magLooseBottles) / 6
+    magCases = int((magBottles - magLooseBottles) / 6)
+    magCasesNum = Decimal((magBottles - magLooseBottles) / 6)
     magCasePrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=6).one()
     magCasePriceDollar = locale.currency(magCasePrice.price)
-    magPriceDollar = magCases * magCasePrice.price
+    magPriceDollar = magCasesNum * magCasePrice.price
     magPrice = locale.currency(magPriceDollar)
     
     looseMagnumPrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=magLooseBottles).one()
@@ -136,10 +139,11 @@ def thirdCalculation(state, regBottles, magBottles):
     OneState = session.query(States).filter_by(name=state).one()
     
     looseBottles = regBottles % 12
-    regCases = (regBottles - looseBottles) / 12
+    regCases = int((regBottles - looseBottles) / 12)
+    regCasesNum = Decimal((regBottles - looseBottles) / 12 )
     twelveCasePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=12).one()
     twelveCasePriceDollar = locale.currency(twelveCasePrice.price)
-    casePriceDollar = regCases * twelveCasePrice.price
+    casePriceDollar = regCasesNum * twelveCasePrice.price
     casePrice = locale.currency(casePriceDollar)
     
     looseBottlePrice = session.query(RegPrices).filter_by(zone=OneState.zone, bottles=looseBottles).one()
@@ -171,10 +175,11 @@ def fourthCalculation(state, regBottles, magBottles):
     casePrice = locale.currency(casePriceDollar)
     
     magLooseBottles = magBottles % 6
-    magCases = (magBottles - magLooseBottles) / 6
+    magCases = int((magBottles - magLooseBottles) / 6)
+    magCasesNum = Decimal((magBottles - magLooseBottles) / 6)
     magCasePrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=6).one()
     magCasePriceDollar = locale.currency(magCasePrice.price)
-    magPriceDollar = magCases * magCasePrice.price
+    magPriceDollar = magCasesNum * magCasePrice.price
     magPrice = locale.currency(magPriceDollar)
     
     looseMagnumPrice = session.query(MagPrices).filter_by(zone=OneState.zone, bottles=magLooseBottles).one()
@@ -193,4 +198,4 @@ if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
     app.run()
-   # app.run(host='0.0.0.0', port=8000)
+    # app.run(host='0.0.0.0', port=8000)
