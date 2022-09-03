@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from database_setup import States, Base, RegPrices, MagPrices
 from decimal import *
 
+# engine = create_engine('postgresql://vingo:somepassword@localhost/vingo')
 engine = create_engine('sqlite:///vingo.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
